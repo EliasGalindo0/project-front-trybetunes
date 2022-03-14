@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.track-sect {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+}
+
+.track-name {
+  font-size: 1.3rem;
+}

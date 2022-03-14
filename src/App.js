@@ -8,23 +8,22 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
-        <p>TrybeTunes</p>
-        <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/search" component={ Search } />
-          <Route exact path="/album/:id" component={ Album } />
-          <Route exact path="/favorites" component={ Favorites } />
-          <Route exact path="/profile" component={ Profile } />
-          <Route exact path="/profile/edit" component={ ProfileEdit } />
-          <Route component={ NotFound } />
-        </Switch>
-      </BrowserRouter>
+      <section>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/profile/edit" component={ ProfileEdit } />
+            <Route path="/profile" component={ Profile } />
+            <Route path="/favorites" component={ Favorites } />
+            <Route path="/album/:id" component={ Album } />
+            <Route path="/search" component={ Search } />
+            <Route exact path="/" component={ Login } />
+            <Route path="*" component={ NotFound } />
+          </Switch>
+        </BrowserRouter>
+      </section>
     );
   }
 }
-
-export default App;

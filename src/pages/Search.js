@@ -3,118 +3,101 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import '../styles/Search.css';
 
 export default class Search extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      search: '',
-      lastArtist: '',
-      isDisabled: true,
+      artist: '',
+      searched: '',
+      disabled: true,
+      mounted: false,
       loading: false,
       albums: [],
+      requested: false,
     };
   }
 
-    handleSearch = (e) => {
-      const maxLength = 2;
-      const searchText = e.target.value;
-      this.setState({
-        search: searchText,
-      });
-      if (searchText.length >= maxLength) {
-        this.setState({ isDisabled: false });
-      } else {
-        this.setState({ isDisabled: true });
-      }
+  componentDidMount() {
+    this.setState({ mounted: true });
+  }
+
+  componentWillUnmount() {
+    this.setState({ mounted: false });
+  }
+
+  handleChange = ({ target: { value } }) => {
+    const currLength = value.length;
+    const minLength = 2;
+    this.setState({
+      artist: value,
+      disabled: currLength < minLength,
+    });
+  }
+
+  handleClick = async () => {
+    const { mounted, artist } = this.state;
+    this.setState({ artist: '', loading: true, searched: artist });
+    if (mounted) {
+      const album = await searchAlbumsAPI(artist);
+      this.setState({ loading: false, albums: album, requested: true });
     }
+  }
 
-    handleSearchAlbums = async () => {
-      const { search } = this.state;
-      this.setState({ loading: true, lastArtist: search, search: '' });
-      const artist = await searchAlbumsAPI(search);
-
-      this.setState({ albums: artist, loading: false });
-    }
-
-    render() {
-      const { isDisabled, search, loading, lastArtist, albums } = this.state;
-      return (
-        <>
-          <Header />
-          <div data-testid="page-search">
-            {
-              loading
-                ? <Loading />
-                : (
-                  <div className="container">
-                    <div className="input-container">
-                      <input
-                        data-testid="search-artist-input"
-                        type="text"
-                        placeholder="Nome do Artista"
-                        onChange={ this.handleSearch }
-                        value={ search }
-                      />
-                      <button
-                        onClick={ this.handleSearchAlbums }
-                        disabled={ isDisabled }
-                        data-testid="search-artist-button"
-                        type="button"
-                      >
-                        Procurar
-                      </button>
-                    </div>
-                    {
-                      lastArtist
-                      && (
-                        <div className="artist-container">
-                          <h2>
-                            Resultado de álbuns de:
-                            {' '}
-                            {''}
-                            {lastArtist}
-                          </h2>
-
-                          <div className="albums-container">
-                            {
-                              albums.length > 0
-                                ? albums.map(
-                                  ({
-                                    collectionId,
-                                    collectionName,
-                                    artworkUrl100,
-                                    artistName,
-                                    artistId,
-                                  }) => (
-                                    <div
-                                      key={ `${artistId}-${collectionId}` }
-                                      className="album"
-                                    >
-                                      <img src={ artworkUrl100 } alt={ artistName } />
-                                      <h3>
-
-                                        <Link
-                                          to={ `/album/${collectionId}` }
-                                          data-testid={ `link-to-album-${collectionId}` }
-                                        />
-                                        {collectionName}
-                                      </h3>
-                                      <p>{artistName}</p>
-                                    </div>
-                                  ),
-                                )
-                                : <span>Nenhum álbum foi encontrado</span>
-                            }
-                          </div>
-                        </div>
-                      )
-                    }
-                  </div>)
-            }
-          </div>
-        </>
-      );
-    }
+  render() {
+    const { searched, artist, disabled, loading, albums, requested } = this.state;
+    const showInput = !loading && !requested;
+    return (
+      <div className="search" data-testid="page-search">
+        <Header />
+        <section className="search-sect">
+          <input
+            className="input"
+            type="text"
+            data-testid="search-artist-input"
+            placeholder="Nome do artista"
+            value={ artist }
+            onChange={ this.handleChange }
+          />
+          <button
+            className="button"
+            type="button"
+            data-testid="search-artist-button"
+            disabled={ disabled }
+            onClick={ this.handleClick }
+          >
+            Pesquisar
+          </button>
+        </section>
+        {loading && <Loading />}
+        {!loading && albums.length === 0
+        && !showInput && <h2 className="title-music">Nenhum álbum foi encontrado</h2>}
+        {!loading && albums.length !== 0 && !showInput && (
+          <>
+            <h2 className="title-music">{`Resultado de álbuns de: ${searched}`}</h2>
+            <ul className="cards-sect">
+              {albums.map((album) => (
+                <li key={ album.collectionId } className="music-card">
+                  <Link
+                    className="link-music"
+                    to={ `/album/${album.collectionId}` }
+                    data-testid={ `link-to-album-${album.collectionId}` }
+                  >
+                    <img
+                      className="music-img"
+                      src={ album.artworkUrl100 }
+                      alt={ `${album.collectionName} - ${album.artistName}` }
+                    />
+                    <h3 className="music-album">{ album.collectionName }</h3>
+                    <p className="music-singer">{ album.artistName }</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    );
+  }
 }

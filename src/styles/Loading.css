@@ -1,0 +1,58 @@
+:root {
+
+  --light-green: rgb(5, 124, 1);
+
+  --dark-green: rgb(3, 54, 18);
+
+  --light-gray: rgb(225, 229, 235);
+
+  --gray1: rgb(62, 66, 75);
+
+  --gray2: rgb(40, 42, 47);
+
+  --gray3: rgb(30, 31, 36);
+
+  --gray4: rgb(26, 27, 28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.load-sect {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin: auto;
+  padding: 15px;
+  width: 30%;
+}
+
+.load-text {
+  color: var(--light-green);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@keyframes spin {
+
+  from { transform: rotate(0deg); }
+
+  to { transform: rotate(360deg); }
+}
+
+.loading {
+  animation: 2s linear infinite spin;
+  border: 12px solid var(--light-gray);
+  border-bottom-color: var(--light-green);
+  border-radius: 50%;
+  height: 150px;
+  margin: 2% auto 5%;
+  width: 150px;
+}

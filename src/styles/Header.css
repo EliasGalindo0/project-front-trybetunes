@@ -1,0 +1,80 @@
+:root {
+
+  --light-green: rgb(5, 124, 1);
+
+  --dark-green: rgb(3, 54, 18);
+
+  --light-gray: rgb(225, 229, 235);
+
+  --gray1: rgb(62, 66, 75);
+
+  --gray2: rgb(40, 42, 47);
+
+  --gray3: rgb(30, 31, 36);
+
+  --gray4: rgb(26, 27, 28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: var(--dark-green);
+  max-height: 300px;
+}
+
+.logo {
+  border-radius: 50%;
+  margin: 1% 5%;
+  max-height: 100px;
+  max-width: 100px;
+  width: 15%;
+}
+
+.flex-container-h {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-sect {
+  background-color: var(--light-gray);
+  border-radius: 50px;
+  font-size: 1.5rem;
+  height: 50px;
+  margin: 5%;
+  min-width: 230px;
+  width: 20%;
+}
+
+.user-title {
+  margin-right: 15px;
+}
+
+.user-img {
+  border-radius: 50%;
+  height: 95%;
+  object-fit: cover;
+}
+
+.nav-links {
+  background-color: var(--light-gray);
+  font-size: 1.7rem;
+  justify-content: space-around;
+}
+
+.link {
+  color: var(--dark-green);
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  width: 33%;
+}
+
+.link:hover {
+  background-color: var(--dark-green);
+  color: var(--light-gray);
+}

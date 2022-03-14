@@ -1,0 +1,125 @@
+:root {
+
+  --light-green: rgb(5, 124, 1);
+
+  --dark-green: rgb(3, 54, 18);
+
+  --light-gray: rgb(225, 229, 235);
+
+  --gray1: rgb(62, 66, 75);
+
+  --gray2: rgb(40, 42, 47);
+
+  --gray3: rgb(30, 31, 36);
+
+  --gray4: rgb(26, 27, 28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page-album {
+  background-color: var(--light-gray);
+}
+
+.album {
+  margin: auto;
+  padding: 50px;
+  width: 90%;
+}
+
+.album-sect {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: space-around;
+  width: 40%;
+}
+
+.album-img {
+  max-width: 70%;
+  width: 500px;
+}
+
+.album-title {
+  font-size: 2.5rem;
+}
+
+.album-singer {
+  font-size: 2rem;
+}
+
+.tracks-sect {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 50px 0;
+  width: 55%;
+}
+
+.track {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px auto;
+  width: 100%;
+}
+
+.track:hover {
+  background-color: var(--dark-green);
+  border-radius: 30px;
+  color: var(--light-gray);
+}
+
+.label {
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 120px;
+}
+
+.checkbox {
+  height: 1.1rem;
+  margin: auto 10px;
+  width: 1.1rem;
+}
+
+.favorites {
+  background-color: var(--light-gray);
+}
+
+.tracks-sect-fave {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: auto;
+  padding: 50px 0;
+  width: 80%;
+}
+
+@media screen and ( max-width : 1100px ) {
+
+  .album {
+    flex-direction: column;
+  }
+
+  .album-sect {
+    margin-top: 20px;
+    width: 90%;
+  }
+
+  .tracks-sect {
+    width: 100%;
+  }
+
+  .track {
+    background-color: var(--lighter-gray);
+    border-radius: 30px;
+    padding: 10px;
+  }
+}

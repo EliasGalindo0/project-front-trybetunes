@@ -1,61 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getUser } from '../services/userAPI';
 import Loading from './Loading';
+import '../styles/Header.css';
+
+const userAPI = require('../services/userAPI');
 
 export default class Header extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       user: '',
-      loading: false,
     };
   }
 
   componentDidMount() {
-    this.handleGetUser();
+    this.getUser();
   }
 
-  handleGetUser = async () => {
-    this.setState({ loading: true });
-    const userObj = await getUser();
-    this.setState({ loading: false });
-    this.setState({
-      user: userObj.name,
-    });
+  getUser = async () => {
+    this.setState({ user: await userAPI.getUser() });
   }
 
   render() {
-    const { user, loading } = this.state;
+    const { user } = this.state;
     return (
-      <header data-testid="header-component">
-        {
-          loading
-            ? <Loading />
-            : (<p data-testid="header-user-name">{user}</p>)
-        }
-
-        <nav>
-          <ul>
-            <li>
-              <Link data-testid="link-to-search" to="/search">
+      <header className="header" data-testid="header-component">
+        {!user ? <Loading /> : (
+          <>
+            <section className="flex-container-h">
+              <img className="logo" src="https://zenitemarcas.com.br/wp-content/uploads/2018/05/como-registrar-uma-m%C3%BAsica.jpg" alt="Music symbol" />
+              <section className="user-sect flex-container-h">
+                <img className="user-img" src={ user.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQZj7Bw_2d3u3gfWIrySXIloU1J1LsU9sdt6WUuWT-XZFxMBbqhibD2bM3zhMXc639XhQ&usqp=CAU' } alt="User silhouette" />
+                <h1 className="user-title" data-testid="header-user-name">{user.name}</h1>
+              </section>
+            </section>
+            <nav className="nav-links flex-container-h">
+              <Link
+                className="link"
+                data-testid="link-to-search"
+                to="/search"
+              >
                 Search
               </Link>
-            </li>
-            <li>
-              <Link data-testid="link-to-favorites" to="/favorites">
+              <Link
+                className="link"
+                data-testid="link-to-favorites"
+                to="/favorites"
+              >
                 Favorites
               </Link>
-            </li>
-            <li>
-              <Link data-testid="link-to-profile" to="/profile">
+              <Link
+                className="link"
+                data-testid="link-to-profile"
+                to="/profile"
+              >
                 Profile
               </Link>
-            </li>
-          </ul>
-        </nav>
-
+            </nav>
+          </>
+        )}
       </header>
     );
   }
